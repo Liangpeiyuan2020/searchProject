@@ -8,10 +8,12 @@ app = Flask(__name__)
 def hello_world(sDate,fr,keyW):
     try:
         import search
-        return jsonify(search.askURL(sDate,fr,keyW))
+        gettt = search.askURL(1, 0, "本科")
+        gettt=str(gettt)
+        return gettt
     except Exception as e:
         return str(e)+"error"
 
 
 if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+    app.run(debug=True)

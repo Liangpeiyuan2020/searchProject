@@ -33,6 +33,7 @@ session1 = requests.Session()
 #         print(item)
 #     print(datalist)
 def dataFilter1(html):
+    global error
     soup = BeautifulSoup(html, "html.parser")
     # print(soup)
     datalist = []
@@ -53,9 +54,11 @@ def dataFilter1(html):
 
 
         datalist.append([seq, cate, apart, title, date, tapCount, id])
-
+    error=6
     return datalist
 def login():
+    global error
+    error=1
     global session1,headers
 
     session1.get("https://www1.szu.edu.cn/", headers=headers)
@@ -63,7 +66,7 @@ def login():
     crypt = session1.get("https://authserver.szu.edu.cn/authserver/custom/js/encrypt.js", headers=headers).text
     encrypt = execjs.compile(crypt)  # 获取js加密代码
     res = session1.get("https://authserver.szu.edu.cn/authserver/login", headers=headers)  # 请求登录界面
-
+    error=2
     bs = BeautifulSoup(res.content, "html.parser")
     bs = bs.find_all('input', {'type': "hidden"})  # 寻找登录界面中需要的数据
     dist = {}
@@ -73,9 +76,12 @@ def login():
         except:
             dist[re.search('(?<=id=").*?(?=")', str(i)).group()] = re.search('(?<=value=").*?(?=")', str(i)).group()
 
-    username = '334837'
-    password = '2945818Sz'
+    username = '334834'
+    password = 'xiao1999'
+
     enPassword = encrypt.call("encryptAES", password, dist["pwdDefaultEncryptSalt"])  # 利用js代码加密
+
+    error=3
     # print(enPassword)
     # 获取加密过的password 结束
 
@@ -92,9 +98,12 @@ def login():
 
     login_url = "https://authserver.szu.edu.cn/authserver/login?service=http%3A%2F%2Fwww1%2Eszu%2Eedu%2Ecn%2Fmanage%2Fcaslogin%2Easp%3Frurl%3D%2F"
     session1.post(login_url, headers=headers, data=data)
+    error=4
     print("登陆成功")
+error=0
+
 def askURL(index_sD,index_fr,keyW):
-    # 登陆
+    global error
     a=["1#今天","7#一周内","30#30天内","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"]
     b = ['', '党政办公室', '档案馆', '督导室', '组织部', '统战部', '宣传部', '纪检（监察）室', '校工会', '妇女委员会', '校团委', '教务部', '招生办公室',
                 '创新创业教育中心', '研究生院', '党委研工部', '发展规划部', '社会科学部', '学报社科版', '科学技术部', '学报理工版', '学生部', '党委学工部', '国际交流与合作部',
@@ -107,7 +116,7 @@ def askURL(index_sD,index_fr,keyW):
                 '脑疾病与认知科学研究中心', '心理健康教育与咨询中心', '创新技术研究院', '原基建部']
     fr=b[index_fr]
     sDate=a[index_sD]
-    login()
+    login()         # 登陆
     searchDate=sDate
     searchDate=searchDate.encode("gb2312")
     ffrom=fr
@@ -125,13 +134,16 @@ def askURL(index_sD,index_fr,keyW):
 
     url = "https://www1.szu.edu.cn/board/infolist.asp?"
     askRes = session1.post(url, headers=headers, data=formData,verify=False)
-
+    error=5
     askRes.encoding = 'gbk'
 
     getdata=dataFilter1(askRes.text)
-    return getdata
+    myData=str(getdata[0])
+    return error+myData
 
 
 if __name__=="__main__":
     a = ["1#今天", "7#一周内", "30#30天内", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012"]
-    print(askURL(1,0,"本科"))
+    gettt=askURL(1,0,"本科")
+    str(gettt)
+    print(gettt)
