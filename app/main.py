@@ -1,4 +1,4 @@
-import os
+import os,demo
 
 from flask import Flask,jsonify
 
@@ -7,12 +7,13 @@ app = Flask(__name__)
 @app.route('/<int:sDate>/<int:fr>/<keyW>')
 def hello_world(sDate,fr,keyW):
     try:
-        import search
-        gettt = search.askURL(1, 0, "本科")
-        gettt=str(gettt)
-        return gettt
+        sttr = demo.main2(sDate,fr,keyW)
+        return jsonify(sttr)
     except Exception as e:
-        return str(e)+"error"
+        zz = str(e)
+        aa = zz + "okkkkkkkkkkkkkktt"
+        return aa
+
 
 
 if __name__ == "__main__":

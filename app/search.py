@@ -97,7 +97,7 @@ def login():
     }
 
     login_url = "https://authserver.szu.edu.cn/authserver/login?service=http%3A%2F%2Fwww1%2Eszu%2Eedu%2Ecn%2Fmanage%2Fcaslogin%2Easp%3Frurl%3D%2F"
-    session1.post(login_url, headers=headers, data=data)
+    session1.post(login_url, headers=headers, data=data,verify=False)
     error=4
     print("登陆成功")
 error=0
@@ -138,8 +138,10 @@ def askURL(index_sD,index_fr,keyW):
     askRes.encoding = 'gbk'
 
     getdata=dataFilter1(askRes.text)
-    myData=str(getdata[0])
-    return str(error)+"  "+getdata[0][3]
+    yyyy="nodata"
+    if len(getdata[0]):
+        yyyy=getdata[0]
+    return str(error)+"  "+yyyy
 
 
 if __name__=="__main__":
