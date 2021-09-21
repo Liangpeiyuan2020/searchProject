@@ -139,7 +139,7 @@ def askURL(index_sD,index_fr,keyW):
 
     getdata=dataFilter1(askRes.text)
     myData=str(getdata[0])
-    return error+myData
+    return str(error)+"  "+getdata[0][3]
 
 
 if __name__=="__main__":
