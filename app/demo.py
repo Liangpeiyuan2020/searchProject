@@ -108,8 +108,8 @@ def main2(index_sD,index_fr,keyW):
     searchDate = searchDate.encode("gb2312")
     ffrom = fr
     ffrom = ffrom.encode("gb2312")
-    keyword = keyW
-    keyword = keyword.encode("GBK")
+    keyW=keyW.decode("utf")
+    keyword = keyW.encode('gbk')
     searchb1 = "搜索"
     searchb1 = searchb1.encode("gb2312")
     formData = {
