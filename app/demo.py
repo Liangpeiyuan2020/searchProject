@@ -109,7 +109,7 @@ def main2(index_sD,index_fr,keyW):
     ffrom = fr
     ffrom = ffrom.encode("gb2312")
     keyword = keyW
-    keyword = keyword.encode("gb2312")
+    keyword = keyword.encode("GBK")
     searchb1 = "搜索"
     searchb1 = searchb1.encode("gb2312")
     formData = {
